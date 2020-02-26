@@ -1,0 +1,78 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        devDebug {
+            initWith(debug)
+            minifyEnabled false
+        }
+
+        devTest {
+            initWith(debug)
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        devRelease {
+            initWith(release)
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        realDebug {
+            initWith(debug)
+        }
+
+        realTest {
+            initWith(debug)
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        realRelease {
+            initWith(release)
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "androidx.fragment:fragment-ktx:$androidx_fragment_version"
+    //Lifecycle
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$androidx_lifecycle_version"
+    implementation "com.google.android.material:material:$material_version"
+    api 'com.snakydesign.livedataextensions:lives:1.3.0'
+    api "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    api 'com.jakewharton.timber:timber:4.7.1'
+
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test:runner:$runner_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+}
+repositories {
+    mavenCentral()
+}

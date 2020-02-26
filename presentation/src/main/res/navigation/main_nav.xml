@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/startFragment">
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.example.presentation.fragment.StartFragment"
+        android:label="StartFragment">
+        <action
+            android:id="@+id/action_startFragment_to_redFragment"
+            app:destination="@id/redFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_animationFragment"
+            app:destination="@id/animationFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_rangeSeekBarFragment"
+            app:destination="@id/rangeSeekBarFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_rangeSeekBar2Fragment"
+            app:destination="@id/rangeSeekBar2Fragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_drawableFragment"
+            app:destination="@id/drawableFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_scratchFragment"
+            app:destination="@id/scratchFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/redFragment"
+        android:name="com.example.presentation.fragment.RedFragment"
+        android:label="RedFragment" />
+
+    <fragment
+        android:id="@+id/animationFragment"
+        android:name="com.example.presentation.fragment.AnimationFragment"
+        android:label="AnimationFragment" />
+
+    <fragment
+        android:id="@+id/rangeSeekBarFragment"
+        android:name="com.example.presentation.fragment.RangeSeekBarFragment"
+        android:label="RangeSeekBarFragment" />
+
+    <fragment
+        android:id="@+id/rangeSeekBar2Fragment"
+        android:name="com.example.presentation.fragment.RangeSeekBar2Fragment"
+        android:label="RangeSeekBar2Fragment" />
+
+    <fragment
+        android:id="@+id/drawableFragment"
+        android:name="com.example.presentation.fragment.DrawableFragment"
+        android:label="DrawableFragment" />
+
+    <fragment
+        android:id="@+id/scratchFragment"
+        android:name="com.example.presentation.fragment.ScratchFragment"
+        android:label="ScratchFragment" />
+</navigation>

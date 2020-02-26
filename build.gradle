@@ -1,0 +1,33 @@
+buildscript {
+    apply from: "dependencies.gradle"
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$androidx_nav_version"
+        classpath 'com.google.gms:google-services:4.3.3'
+    }
+}
+
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}

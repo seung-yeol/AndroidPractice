@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="OSYViewLayout">
+        <attr name="swipeable" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="StartEndSeekBar">
+        <attr name="startIcon" format="reference" />
+        <attr name="endIcon" format="reference" />
+        <attr name="thumbHeight" format="dimension" />
+        <attr name="thumbWidth" format="dimension" />
+        <attr name="leftProgress" format="integer" />
+        <attr name="rightProgress" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="IconSeekBar">
+        <attr name="iconDrawable" format="reference" />
+        <attr name="iconHeight" format="dimension" />
+        <attr name="iconWidth" format="dimension" />
+        <attr name="iconOffset" format="dimension" />
+        <attr name="iconPaddingTop" format="dimension" />
+        <attr name="iconPaddingBottom" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="MySeekBar">
+        <attr name="startIconDrawable" format="reference" />
+        <attr name="endIconDrawable" format="reference" />
+        <attr name="thumbIconOffsetTop" format="dimension" />
+        <attr name="startIconOffsetTop" format="dimension" />
+        <attr name="endIconOffsetTop" format="dimension" />
+        <attr name="thumbIconOffsetStart" format="dimension" />
+        <attr name="startIconOffsetStart" format="dimension" />
+        <attr name="endIconOffsetStart" format="dimension" />
+        <attr name="rangeHeight" format="dimension" />
+        <attr name="rangeColor" format="color" />
+        <attr name="endPointProgress" format="integer" />
+        <attr name="startPointProgress" format="integer" />
+    </declare-styleable>
+</resources>
