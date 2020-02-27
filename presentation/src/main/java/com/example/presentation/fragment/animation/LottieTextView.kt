@@ -1,4 +1,4 @@
-package com.example.presentation
+package com.example.presentation.fragment.animation
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.widget.TextView
 import com.airbnb.lottie.LottieCompositionFactory
 import com.airbnb.lottie.LottieDrawable
-import com.example.presentation.custom.drawable.ShadowDrawable
+import com.example.presentation.fragment.drawable.drawable.ShadowDrawable
 
 class LottieTextView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -84,7 +84,11 @@ class LottieTextView @JvmOverloads constructor(
 
     private fun combineLottieAndText(): Spannable {
         val lottie = SpannableStringBuilder().append(" ").apply {
-            setSpan(CustomImageSpan(shadowDrawable, CustomImageSpan.ALIGN_CENTER), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(
+                CustomImageSpan(
+                    shadowDrawable,
+                    CustomImageSpan.ALIGN_CENTER
+                ), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
         return SpannableStringBuilder().apply {

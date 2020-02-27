@@ -1,4 +1,4 @@
-package com.example.presentation.fragment
+package com.example.presentation.fragment.animation
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

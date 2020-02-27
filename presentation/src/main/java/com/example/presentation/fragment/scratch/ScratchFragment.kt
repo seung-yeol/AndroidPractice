@@ -1,4 +1,4 @@
-package com.example.presentation.fragment
+package com.example.presentation.fragment.scratch
 
 import android.os.Bundle
 import android.view.LayoutInflater

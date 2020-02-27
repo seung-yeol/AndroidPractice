@@ -5,7 +5,7 @@
     app:startDestination="@id/startFragment">
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.example.presentation.fragment.StartFragment"
+        android:name="com.example.presentation.fragment.start.StartFragment"
         android:label="StartFragment">
         <action
             android:id="@+id/action_startFragment_to_redFragment"
@@ -32,31 +32,31 @@
 
     <fragment
         android:id="@+id/redFragment"
-        android:name="com.example.presentation.fragment.RedFragment"
+        android:name="com.example.presentation.fragment.clipswipe.ClipSwipeFragment"
         android:label="RedFragment" />
 
     <fragment
         android:id="@+id/animationFragment"
-        android:name="com.example.presentation.fragment.AnimationFragment"
+        android:name="com.example.presentation.fragment.animation.AnimationFragment"
         android:label="AnimationFragment" />
 
     <fragment
         android:id="@+id/rangeSeekBarFragment"
-        android:name="com.example.presentation.fragment.RangeSeekBarFragment"
+        android:name="com.example.presentation.fragment.rangeseekbar.RangeSeekBarFragment"
         android:label="RangeSeekBarFragment" />
 
     <fragment
         android:id="@+id/rangeSeekBar2Fragment"
-        android:name="com.example.presentation.fragment.RangeSeekBar2Fragment"
+        android:name="com.example.presentation.fragment.rangeseekbar.RangeSeekBarFragment"
         android:label="RangeSeekBar2Fragment" />
 
     <fragment
         android:id="@+id/drawableFragment"
-        android:name="com.example.presentation.fragment.DrawableFragment"
+        android:name="com.example.presentation.fragment.drawable.DrawableFragment"
         android:label="DrawableFragment" />
 
     <fragment
         android:id="@+id/scratchFragment"
-        android:name="com.example.presentation.fragment.ScratchFragment"
+        android:name="com.example.presentation.fragment.scratch.ScratchFragment"
         android:label="ScratchFragment" />
 </navigation>

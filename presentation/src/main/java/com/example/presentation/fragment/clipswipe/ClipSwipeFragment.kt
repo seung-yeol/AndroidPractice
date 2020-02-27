@@ -1,4 +1,4 @@
-package com.example.presentation.fragment
+package com.example.presentation.fragment.clipswipe
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -15,18 +15,17 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import com.example.presentation.MyItemAnimator
 import com.example.presentation.R
 import kotlinx.android.synthetic.main.fragment_start.*
 import kotlinx.android.synthetic.main.item.view.*
 import java.util.*
 
 
-class RedFragment : Fragment() {
+class ClipSwipeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_red, container, false)
+        return inflater.inflate(R.layout.fragment_clip_swipe, container, false)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -40,8 +39,9 @@ class RedFragment : Fragment() {
     private fun initRecyclerView() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        recyclerView.adapter = TestAdapter()
-        recyclerView.itemAnimator = MyItemAnimator()
+        recyclerView.adapter =
+            TestAdapter()
+//        recyclerView.itemAnimator = MyItemAnimator()
         recyclerView.setChildDrawingOrderCallback { childCount, i ->
             childCount - i - 1
         }
@@ -91,7 +91,9 @@ class RedFragment : Fragment() {
             if (currentPage > 0) {
                 currentPage--
 
-                val sss = SlowSmoothScroll(requireContext()).apply { targetPosition = currentPage }
+                val sss = SlowSmoothScroll(
+                    requireContext()
+                ).apply { targetPosition = currentPage }
                 (recyclerView.layoutManager as LinearLayoutManager).startSmoothScroll(sss)
             }
         }
@@ -103,7 +105,9 @@ class RedFragment : Fragment() {
                 currentPage++
                 recyclerView.smoothScrollToPosition(currentPage)
 
-                val sss = SlowSmoothScroll(requireContext()).apply {
+                val sss = SlowSmoothScroll(
+                    requireContext()
+                ).apply {
                     targetPosition = currentPage
                 }
                 (recyclerView.layoutManager as LinearLayoutManager).startSmoothScroll(sss)

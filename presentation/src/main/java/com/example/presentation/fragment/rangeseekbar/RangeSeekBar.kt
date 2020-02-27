@@ -1,9 +1,9 @@
-package com.example.presentation.custom
+package com.example.presentation.fragment.rangeseekbar
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Parcel
 import android.os.Parcelable
@@ -17,10 +17,10 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class MySeekBar @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+class RangeSeekBar @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
 ) : SeekBar(context, attrs, defStyleAttr) {
     private var mScaledTouchSlop: Int = 0
     private var iconPaddingStartEnd: Int = 0
@@ -59,23 +59,23 @@ class MySeekBar @JvmOverloads constructor(
     }
 
     private fun initAttrs(attrs: AttributeSet?) {
-        context.obtainStyledAttributes(attrs, R.styleable. MySeekBar).also {
-            thumbOffsetStart = it.getDimensionPixelSize(R.styleable.MySeekBar_thumbIconOffsetStart, 0)
-            startOffsetStart = it.getDimensionPixelSize(R.styleable.MySeekBar_startIconOffsetStart, 0)
-            endOffsetStart = it.getDimensionPixelSize(R.styleable.MySeekBar_endIconOffsetStart, 0)
+        context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar).also {
+            thumbOffsetStart = it.getDimensionPixelSize(R.styleable.RangeSeekBar_thumbIconOffsetStart, 0)
+            startOffsetStart = it.getDimensionPixelSize(R.styleable.RangeSeekBar_startIconOffsetStart, 0)
+            endOffsetStart = it.getDimensionPixelSize(R.styleable.RangeSeekBar_endIconOffsetStart, 0)
 
-            thumbOffsetTop = it.getDimensionPixelSize(R.styleable.MySeekBar_thumbIconOffsetTop, 0)
-            startOffsetTop = it.getDimensionPixelSize(R.styleable.MySeekBar_startIconOffsetTop, 0)
-            endOffsetTop = it.getDimensionPixelSize(R.styleable.MySeekBar_endIconOffsetTop, 0)
+            thumbOffsetTop = it.getDimensionPixelSize(R.styleable.RangeSeekBar_thumbIconOffsetTop, 0)
+            startOffsetTop = it.getDimensionPixelSize(R.styleable.RangeSeekBar_startIconOffsetTop, 0)
+            endOffsetTop = it.getDimensionPixelSize(R.styleable.RangeSeekBar_endIconOffsetTop, 0)
 
-            rangeHeight = it.getDimensionPixelSize(R.styleable.MySeekBar_rangeHeight, 4.dpToPx())
-            rangeColor = it.getColor(R.styleable.MySeekBar_rangeColor, Color.RED)
+            rangeHeight = it.getDimensionPixelSize(R.styleable.RangeSeekBar_rangeHeight, 4.dpToPx())
+            rangeColor = it.getColor(R.styleable.RangeSeekBar_rangeColor, Color.RED)
 
-            startProgress = it.getInt(R.styleable.MySeekBar_startPointProgress, 0)
-            endProgress = it.getInt(R.styleable.MySeekBar_endPointProgress, 0)
+            startProgress = it.getInt(R.styleable.RangeSeekBar_startPointProgress, -1)
+            endProgress = it.getInt(R.styleable.RangeSeekBar_endPointProgress, -1)
 
-            startIconDrawable = initDrawable(it.getDrawable(R.styleable.MySeekBar_startIconDrawable))
-            endIconDrawable = initDrawable(it.getDrawable(R.styleable.MySeekBar_endIconDrawable))
+            startIconDrawable = initDrawable(it.getDrawable(R.styleable.RangeSeekBar_startIconDrawable))
+            endIconDrawable = initDrawable(it.getDrawable(R.styleable.RangeSeekBar_endIconDrawable))
         }.recycle()
 
         mScaledTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
@@ -108,12 +108,14 @@ class MySeekBar @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        drawIcons(canvas)
-        drawRange(canvas)
-        drawThumb(canvas)
+        canvas?.let {
+            drawIcons(it)
+            drawRange(it)
+            drawThumb(it)
+        }
     }
 
-    private fun drawIcons(canvas: Canvas?) {
+    private fun drawIcons(canvas: Canvas) {
         if (startProgress != -1 && !isLastDrawStart)
             drawIconDrawable(canvas, startIconDrawable, startProgress, startOffsetStart, startOffsetTop)
 
@@ -124,40 +126,36 @@ class MySeekBar @JvmOverloads constructor(
             drawIconDrawable(canvas, startIconDrawable, startProgress, startOffsetStart, startOffsetTop)
     }
 
-    private fun drawRange(canvas: Canvas?) {
+    private fun drawRange(canvas: Canvas) {
         if (startProgress != -1 && endProgress != -1) {
-            val width = abs(getProgressStartX(endProgress) - getProgressStartX(startProgress))
             val left = getProgressStartX(min(startProgress, endProgress))
             val top = height / 2 - rangeHeight / 2
+            val right = left + min(abs(getProgressStartX(endProgress) - getProgressStartX(startProgress)), width)
+            val bottom = top + rangeHeight
 
             if (width != 0) {
-                val bitmap = Bitmap.createBitmap(width, rangeHeight, Bitmap.Config.ARGB_8888).also {
-                    Canvas(it).drawColor(rangeColor)
-                }
-                canvas!!.drawBitmap(bitmap, left.toFloat(), top.toFloat(), null)
+                ColorDrawable(rangeColor).apply { setBounds(left, top, right, bottom) }.draw(canvas)
             }
         }
     }
 
-    private fun drawThumb(canvas: Canvas?) {
+    private fun drawThumb(canvas: Canvas) {
         drawIconDrawable(canvas, thumbIconDrawable, progress, thumbOffsetStart, thumbOffsetTop)
     }
 
-    private fun drawIconDrawable(canvas: Canvas?, drawable: Drawable, progress: Int, offsetStart: Int, offsetTop: Int) {
+    private fun drawIconDrawable(canvas: Canvas, drawable: Drawable, progress: Int, offsetStart: Int, offsetTop: Int) {
         val left = getProgressStartX(progress) - drawable.intrinsicWidth / 2 + offsetStart
         val top = height / 2 - drawable.intrinsicHeight / 2 + offsetTop
 
         drawable.setBounds(left, top, left + drawable.intrinsicWidth, top + drawable.intrinsicHeight)
-        canvas?.also {
-            drawable.draw(it)
-        }
+        canvas.also { drawable.draw(it) }
     }
 
     private fun getProgressStartX(progress: Int): Int {
         val padding: Int = paddingLeft + paddingRight
         val sPos: Int = paddingLeft
 
-        return (width - padding) * progress / (if (max != 0) max else 100) + sPos
+        return ((width - padding) * progress.toLong() / (if (max != 0) max else 100) + sPos).toInt()
     }
 
     fun checkStart(progress: Int) {
@@ -195,14 +193,14 @@ class MySeekBar @JvmOverloads constructor(
     }
 
     class SavedState : BaseSavedState {
-        var startProgress: Int = 0
-        var endProgress: Int = 0
+        var startProgress: Int = -1
+        var endProgress: Int = -1
         var isLastDrawStart: Boolean? = null
 
         constructor(source: Parcel?) : super(source) {
-            startProgress = source?.readInt() ?: 0
-            endProgress = source?.readInt() ?: 0
-            isLastDrawStart = source?.readBoolean() ?: false
+            startProgress = source?.readInt() ?: -1
+            endProgress = source?.readInt() ?: -1
+            isLastDrawStart = source?.readInt() == 1
         }
 
         constructor(superState: Parcelable?) : super(superState)
@@ -211,7 +209,7 @@ class MySeekBar @JvmOverloads constructor(
             super.writeToParcel(parcel, flags)
             parcel.writeInt(startProgress)
             parcel.writeInt(endProgress)
-            parcel.writeBoolean(isLastDrawStart ?: false)
+            parcel.writeInt(if (isLastDrawStart == true) 1 else 0)
         }
 
         override fun describeContents(): Int {

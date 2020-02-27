@@ -1,4 +1,4 @@
-package com.example.presentation
+package com.example.presentation.fragment.start
 
 import android.animation.ObjectAnimator
 import android.view.View
@@ -12,10 +12,6 @@ class MyItemAnimator : DefaultItemAnimator() {
         view.translationY = -view.height.toFloat()
         println("OSY asd ${-view.height.toFloat()}")
         ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0f).setDuration(2000).start()
-
-//        val alphaAnimator = ObjectAnimator.ofFloat(view, View.ALPHA, 1.0f, 0.0f).setDuration(100)
-//        alphaAnimator.interpolator = DecelerateInterpolator()
-//        alphaAnimator.start()
 
         return true
     }

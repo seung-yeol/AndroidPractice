@@ -1,4 +1,4 @@
-package com.example.presentation;
+package com.example.presentation.fragment.animation;
 
 import android.content.Context;
 import android.graphics.Canvas;
