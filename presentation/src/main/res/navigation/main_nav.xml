@@ -28,6 +28,14 @@
         <action
             android:id="@+id/action_startFragment_to_scratchFragment"
             app:destination="@id/scratchFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_customLayoutFragment"
+            app:destination="@id/customLayoutFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_RxFragment"
+            app:destination="@id/rxFragment" />
     </fragment>
 
     <fragment
@@ -59,4 +67,14 @@
         android:id="@+id/scratchFragment"
         android:name="com.example.presentation.fragment.scratch.ScratchFragment"
         android:label="ScratchFragment" />
+
+    <fragment
+        android:id="@+id/customLayoutFragment"
+        android:name="com.example.presentation.fragment.customlayout.CustomLayoutFragment"
+        android:label="CustomLayoutFragment" />
+
+    <fragment
+        android:id="@+id/rxFragment"
+        android:name="com.example.presentation.fragment.rx.RxFragment"
+        android:label="RxFragment" />
 </navigation>

@@ -34,10 +34,10 @@ class StartFragment : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         recyclerView.adapter =
-            TestAdapter(
-                LinkedList<TestAdapter.Item>().apply {
+            MyAdapter(
+                LinkedList<MyAdapter.Item>().apply {
                     add(
-                        TestAdapter.Item(
+                        MyAdapter.Item(
                             Color.RED,
                             "Clip Swipe",
                             View.OnClickListener {
@@ -46,7 +46,7 @@ class StartFragment : Fragment() {
                     )
 
                     add(
-                        TestAdapter.Item(
+                        MyAdapter.Item(
                             Color.YELLOW,
                             "Animation Set",
                             View.OnClickListener {
@@ -55,7 +55,7 @@ class StartFragment : Fragment() {
                     )
 
                     add(
-                        TestAdapter.Item(
+                        MyAdapter.Item(
                             Color.BLUE,
                             "Range Seekbar",
                             View.OnClickListener {
@@ -64,7 +64,7 @@ class StartFragment : Fragment() {
                     )
 
                     add(
-                        TestAdapter.Item(
+                        MyAdapter.Item(
                             Color.MAGENTA,
                             "animated Drawable",
                             View.OnClickListener {
@@ -73,11 +73,29 @@ class StartFragment : Fragment() {
                     )
 
                     add(
-                        TestAdapter.Item(
+                        MyAdapter.Item(
                             Color.GREEN,
-                            "scratch",
+                            "scratch view",
                             View.OnClickListener {
                                 findNavController().navigate(StartFragmentDirections.actionStartFragmentToScratchFragment())
+                            })
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.GRAY,
+                            "custom layout",
+                            View.OnClickListener {
+                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToCustomLayoutFragment())
+                            })
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.RED,
+                            "RX",
+                            View.OnClickListener {
+                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToRxFragment())
                             })
                     )
                 }
@@ -123,8 +141,8 @@ class StartFragment : Fragment() {
         }
     }
 
-    class TestAdapter(private val items: List<Item> = arrayListOf()) :
-        RecyclerView.Adapter<TestAdapter.TestViewHolder>() {
+    class MyAdapter(private val items: List<Item> = arrayListOf()) :
+        RecyclerView.Adapter<MyAdapter.TestViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
             return TestViewHolder(
