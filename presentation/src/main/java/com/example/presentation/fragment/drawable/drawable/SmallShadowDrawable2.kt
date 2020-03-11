@@ -9,22 +9,55 @@ import android.graphics.drawable.Drawable
 import android.os.SystemClock
 import androidx.core.content.ContextCompat
 import com.example.presentation.R
+import kotlin.math.min
 
 
-class MyDrawable(context: Context) : Drawable(), Animatable {
+class SmallShadowDrawable2(context: Context) : Drawable(), Animatable {
+    companion object {
+        private const val FRAME_DELAY = 1000 / 50
+    }
+
     private val drawable = ContextCompat.getDrawable(context, R.drawable.small_shadow_diamond)
-    private val frameDelay = 1000 / 50        // 초당 50프레임
-    private var duration = 1400L            // 애니메이션의 총 시간
-    private var isRunning = false            // 애니메이션 실행상태
-    private var startTime = 0L                // 시작시간
+    private var isRunning = false
+    private var startTime = 0L
+
+    private var curCount = 0
+    private var repeatCount = 2
+
+    private var duration = 1400L
+    private var repeatDuration = 700L
+
+    private val startEnd = 200L //shadow 크기가 변하는 시간.
 
     override fun draw(canvas: Canvas) {
+        drawDiamondBlur(canvas)
+    }
+
+    private fun drawDiamondBlur(canvas: Canvas) {
         if (isRunning) {
             val elapsedTime = SystemClock.uptimeMillis() - startTime
 
-            val per = elapsedTime / duration
-            val width = (drawable!!.intrinsicWidth * per).toInt()
-            val height = (drawable.intrinsicHeight * per).toInt()
+            var width = 1
+            var height = 1
+            when {
+                elapsedTime <= startEnd -> {
+                    val per = elapsedTime / startEnd.toFloat()
+                    width = (drawable!!.intrinsicWidth * per).toInt()
+                    height = (drawable.intrinsicHeight * per).toInt()
+                }
+                elapsedTime >= duration - startEnd -> {
+                    val per = (duration - elapsedTime) / startEnd.toFloat()
+                    width = (drawable!!.intrinsicWidth * per).toInt()
+                    height = (drawable.intrinsicHeight * per).toInt()
+                }
+                else -> {
+                    width = drawable!!.intrinsicWidth
+                    height = drawable.intrinsicHeight
+                }
+            }
+
+            if (width == 0) width = 1
+            if (height == 0) height = 1
 
             drawable.setBounds(
                 (drawable.intrinsicWidth - width) / 2,
@@ -60,6 +93,7 @@ class MyDrawable(context: Context) : Drawable(), Animatable {
     }
 
     override fun start() {
+        curCount = 0
         isRunning = true
         startTime = SystemClock.uptimeMillis()
         scheduleSelf(mUpdater, SystemClock.uptimeMillis())
@@ -67,22 +101,35 @@ class MyDrawable(context: Context) : Drawable(), Animatable {
     }
 
     override fun stop() {
+        curCount = 0
         isRunning = false
         unscheduleSelf(mUpdater)
         invalidateSelf()
     }
 
+    private fun restart() {
+        curCount++
+        startTime = SystemClock.uptimeMillis() + repeatDuration
+        scheduleSelf(mUpdater, startTime)
+        invalidateSelf()
+    }
 
     private val mUpdater = Runnable { update() }
     private fun update() {
         val curTime = SystemClock.uptimeMillis()
+        val progress = min(1f, (curTime - startTime).toFloat() / duration)
 
-        if (curTime - startTime > duration) {
+        if (repeatCount == curCount) {
             isRunning = false
+            curCount = 0
+        } else {
+            if (progress == 1f) {
+                restart()
+            }
         }
 
         if (isRunning) {
-            scheduleSelf(mUpdater, SystemClock.uptimeMillis() + frameDelay)
+            scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DELAY)
         }
         invalidateSelf()
     }

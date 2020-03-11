@@ -75,7 +75,7 @@ class ShadowDrawable(context: Context) : Drawable(), Animatable {
     }
 
     override fun getOpacity(): Int {
-        return PixelFormat.TRANSLUCENT
+        return PixelFormat.OPAQUE
     }
 
     override fun jumpToCurrentState() {

@@ -74,6 +74,15 @@ class StartFragment : Fragment() {
 
                     add(
                         MyAdapter.Item(
+                            Color.RED,
+                            "animated Drawable2",
+                            View.OnClickListener {
+                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToDrawableFragment2())
+                            })
+                    )
+
+                    add(
+                        MyAdapter.Item(
                             Color.GREEN,
                             "scratch view",
                             View.OnClickListener {
