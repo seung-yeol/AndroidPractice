@@ -12,7 +12,7 @@ import com.example.presentation.R
 
 
 class MyDrawable(context: Context) : Drawable(), Animatable {
-    private val drawable = ContextCompat.getDrawable(context, R.drawable.shadow_diamond)
+    private val drawable = ContextCompat.getDrawable(context, R.drawable.small_shadow_diamond)
     private val frameDelay = 1000 / 50        // 초당 50프레임
     private var duration = 1400L            // 애니메이션의 총 시간
     private var isRunning = false            // 애니메이션 실행상태

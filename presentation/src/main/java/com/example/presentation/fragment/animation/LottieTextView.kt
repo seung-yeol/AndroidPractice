@@ -6,14 +6,14 @@ import android.graphics.drawable.LayerDrawable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.airbnb.lottie.LottieCompositionFactory
 import com.airbnb.lottie.LottieDrawable
 import com.example.presentation.fragment.drawable.drawable.ShadowDrawable
 
 class LottieTextView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : TextView(context, attrs, defStyleAttr) {
+) : AppCompatTextView(context, attrs, defStyleAttr) {
     private val lottieComposition = LottieCompositionFactory.fromAssetSync(context, "anim_diamond3.json").value
     private var shadowDrawable: ShadowDrawable? = null
     private var lottieDrawable: LottieDrawable? = null
@@ -57,6 +57,10 @@ class LottieTextView @JvmOverloads constructor(
             repeatCount = 10
             scale = 0.5f
         }.also { setLottieDrawable(it) }*/
+
+        lottieDrawable?.addAnimatorUpdateListener {
+            it
+        }
     }
 
     private fun setLottieDrawable(drawable: LottieDrawable) {
