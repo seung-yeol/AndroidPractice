@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -28,26 +29,22 @@ class ClipSwipeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_clip_swipe, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initView()
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private fun initRecyclerView() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         recyclerView.adapter =
             TestAdapter()
-//        recyclerView.itemAnimator = MyItemAnimator()
         recyclerView.setChildDrawingOrderCallback { childCount, i ->
             childCount - i - 1
         }
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val visiblePosition =
                     (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
@@ -58,8 +55,8 @@ class ClipSwipeFragment : Fragment() {
                 recyclerView.children.forEach {
                     val viewHolder = recyclerView.findContainingViewHolder(it)
                     if (viewHolder != null) {
-                        when {
-                            viewHolder.layoutPosition == visiblePosition -> {
+                        when (viewHolder.layoutPosition) {
+                            visiblePosition -> {
                                 it.translationX = -it.left.toFloat()
                                 it.clipBounds = temp.apply {
                                     left = 0
@@ -68,7 +65,7 @@ class ClipSwipeFragment : Fragment() {
                                     bottom = it.height
                                 }
                             }
-                            viewHolder.layoutPosition == visiblePosition + 1 -> {
+                            visiblePosition + 1 -> {
                                 it.translationX = -it.left.toFloat()
                                 it.clipBounds = temp.apply {
                                     left = 0
@@ -161,7 +158,7 @@ class ClipSwipeFragment : Fragment() {
         }
 
         class TestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val textView = itemView.text
+            val textView: TextView = itemView.text
         }
     }
 }

@@ -2,6 +2,8 @@ package com.example.presentation.fragment.customlayout
 
 import android.content.Context
 import android.util.AttributeSet
+import android.graphics.Rect
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.*
@@ -30,14 +32,16 @@ class MyLayout @JvmOverloads constructor(
             myWidth = maxWidth
         } else {
             children.forEach {
-                val viewWidth = it.measuredWidth + it.marginLeft + it.marginRight
-                if (tempWidth + viewWidth > maxWidth) {
-                    if (myWidth < tempWidth) {
-                        myWidth = tempWidth
+                if (it.visibility != View.GONE) {
+                    val viewWidth = it.measuredWidth + it.marginLeft + it.marginRight
+                    if (tempWidth + viewWidth > maxWidth) {
+                        if (myWidth < tempWidth) {
+                            myWidth = tempWidth
+                        }
+                        tempWidth = paddingLeft + paddingRight + viewWidth
+                    } else {
+                        tempWidth += viewWidth
                     }
-                    tempWidth = paddingLeft + paddingRight + viewWidth
-                } else {
-                    tempWidth += viewWidth
                 }
             }
         }
@@ -49,18 +53,20 @@ class MyLayout @JvmOverloads constructor(
             myHeight += paddingTop + paddingBottom
             var bigY = 0
             children.forEach {
-                val viewWidth = it.measuredWidth + it.marginLeft + it.marginRight
-                val viewHeight = it.measuredHeight + it.marginTop + it.marginBottom
+                if (it.visibility != View.GONE) {
+                    val viewWidth = it.measuredWidth + it.marginLeft + it.marginRight
+                    val viewHeight = it.measuredHeight + it.marginTop + it.marginBottom
 
-                if (tempWidth + viewWidth > maxWidth) {
-                    myHeight += bigY
-                    bigY = viewHeight
-                    tempWidth = paddingLeft + paddingRight + viewWidth
-                } else {
-                    tempWidth += viewWidth
-
-                    if (bigY < viewHeight) {
+                    if (tempWidth + viewWidth > maxWidth) {
+                        myHeight += bigY
                         bigY = viewHeight
+                        tempWidth = paddingLeft + paddingRight + viewWidth
+                    } else {
+                        tempWidth += viewWidth
+
+                        if (bigY < viewHeight) {
+                            bigY = viewHeight
+                        }
                     }
                 }
             }
@@ -103,6 +109,51 @@ class MyLayout @JvmOverloads constructor(
                 startX += viewWidth
             }
         }
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return true
+    }
+
+
+    private var targetView: View? = null
+    private var preX = 0f
+    private var preY = 0f
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                targetView = children.lastOrNull { child ->
+                    child.performClick()
+                    Rect().also {
+                        child.getHitRect(it)
+                    }.run {
+                        contains(event.x.toInt(), event.y.toInt()).also {
+                            if (it) {
+                                preX = event.x
+                                preY = event.y
+                            }
+                        }
+                    }
+                }
+            }
+
+            MotionEvent.ACTION_UP -> {
+                targetView = null
+                return false
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+                targetView?.apply {
+                    x += event.x - preX
+                    y += event.y - preY
+
+                    preX = event.x
+                    preY = event.y
+                }
+            }
+        }
+
+        return true
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

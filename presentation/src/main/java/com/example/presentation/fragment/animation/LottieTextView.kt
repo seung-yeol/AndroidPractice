@@ -32,7 +32,6 @@ class LottieTextView @JvmOverloads constructor(
     fun startAnimation() {
         lottieDrawable?.playAnimation()
         shadowDrawable?.start()
-
     }
 
     fun endAnimation() {

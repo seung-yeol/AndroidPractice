@@ -26,6 +26,10 @@
             app:destination="@id/drawableFragment" />
 
         <action
+            android:id="@+id/action_startFragment_to_drawableFragment2"
+            app:destination="@id/drawableFragment2" />
+
+        <action
             android:id="@+id/action_startFragment_to_scratchFragment"
             app:destination="@id/scratchFragment" />
 
@@ -62,6 +66,11 @@
         android:id="@+id/drawableFragment"
         android:name="com.example.presentation.fragment.drawable.DrawableFragment"
         android:label="DrawableFragment" />
+
+    <fragment
+        android:id="@+id/drawableFragment2"
+        android:name="com.example.presentation.fragment.drawable.DrawableFragment2"
+        android:label="DrawableFragment2" />
 
     <fragment
         android:id="@+id/scratchFragment"

@@ -10,7 +10,7 @@
         android:id="@+id/centerImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#59C491"
+        android:background="#2A0866"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
