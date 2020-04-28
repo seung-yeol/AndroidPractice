@@ -1,16 +1,27 @@
 package com.example.presentation.fragment.customlayout
 
 import android.content.Context
-import android.util.AttributeSet
+import android.graphics.Canvas
 import android.graphics.Rect
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.util.AttributeSet
+import android.view.*
+import android.view.animation.DecelerateInterpolator
+import android.widget.OverScroller
 import androidx.core.view.*
+import java.util.*
+import kotlin.math.abs
+import kotlin.math.max
 
-class MyLayout @JvmOverloads constructor(
+open class MyLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr) {
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+
+        if (!viewAndScrollerList.isNullOrEmpty()) {
+            computeFling()
+        }
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
@@ -111,49 +122,223 @@ class MyLayout @JvmOverloads constructor(
         }
     }
 
-    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        return true
-    }
+    private val configuration = ViewConfiguration.get(context)
+    private val touchSlop = configuration.scaledTouchSlop
+    private val mMaximumVelocity = configuration.scaledMaximumFlingVelocity.toFloat()
 
+    private var isDrag = false
+    private var downX = 0f
+    private var downY = 0f
+
+    private var standByClick = true
 
     private var targetView: View? = null
-    private var preX = 0f
-    private var preY = 0f
+    private var preX: Float? = null
+    private var preY: Float? = null
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.actionMasked) {
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain()
+        }
+        mVelocityTracker!!.addMovement(event)
+
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                targetView = children.lastOrNull { child ->
-                    child.performClick()
-                    Rect().also {
-                        child.getHitRect(it)
-                    }.run {
-                        contains(event.x.toInt(), event.y.toInt()).also {
-                            if (it) {
-                                preX = event.x
-                                preY = event.y
-                            }
+                targetView = getLastChild(event)
+                if (targetView != null) {
+                    preX = event.x
+                    preY = event.y
+
+                    viewAndScrollerList.firstOrNull { it.first == targetView }?.second?.forceFinished(true)
+                }
+
+                return true
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+                val diffX = abs(downX - event.x)
+                val diffY = abs(downY - event.y)
+
+                if ((diffX + diffY) * 1.4f > touchSlop) {
+                    isDrag = true
+                    standByClick = true
+                }
+
+                if (isDrag) {
+                    targetView?.apply {
+                        if (preX != null && preY != null) {
+                            x += event.x - preX!!
+                            y += event.y - preY!!
                         }
+
+                        preX = event.x
+                        preY = event.y
                     }
+                }
+
+                return true
+            }
+
+            MotionEvent.ACTION_UP -> {
+                val result = targetView != null
+
+                if (result && isDrag) {
+                    val velocityTracker = mVelocityTracker
+                    velocityTracker!!.computeCurrentVelocity(1000, mMaximumVelocity)
+                    val xVelocity = velocityTracker.xVelocity
+                    val yVelocity = velocityTracker.yVelocity
+
+                    val scroller = OverScroller(context, DecelerateInterpolator())
+                    scroller.fling(
+                        targetView!!.x.toInt(),
+                        targetView!!.y.toInt(),
+                        xVelocity.toInt(),
+                        yVelocity.toInt(),
+                        0,
+                        width - targetView!!.width,
+                        0,
+                        height - targetView!!.height
+                    )
+                    viewAndScrollerList.add(targetView!! to scroller)
+
+                    computeFling()
+                }
+
+                targetView = null
+                preX = null
+                preY = null
+
+                if (standByClick) {
+                    children.findLast { child ->
+                        Rect().also { child.getHitRect(it) }
+                            .run { contains(event.x.toInt(), event.y.toInt()) }
+                            .let { if (it) child.performClick() else false }
+                    } ?: performClick()
+                }
+
+                resetTouch()
+
+                return result
+            }
+
+            MotionEvent.ACTION_CANCEL -> {
+                targetView = null
+                preX = null
+                preY = null
+            }
+        }
+
+        return false
+    }
+
+    private fun resetTouch() {
+        standByClick = true
+        isDrag = false
+        mVelocityTracker?.recycle()
+        mVelocityTracker = null
+        parent.requestDisallowInterceptTouchEvent(false)
+    }
+
+    var mVelocityTracker: VelocityTracker? = null
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        var result = isChild(ev)
+
+        when (ev.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                targetView = getLastChild(ev)
+
+                downX = ev.x
+                downY = ev.y
+
+                result = false
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+                parent.requestDisallowInterceptTouchEvent(true)
+                return if (targetView != null) {
+                    canDrag(this, ev.x, ev.y) == DraggableState.POSSIBLE
+                } else {
+                    false
                 }
             }
 
             MotionEvent.ACTION_UP -> {
-                targetView = null
                 return false
-            }
-
-            MotionEvent.ACTION_MOVE -> {
-                targetView?.apply {
-                    x += event.x - preX
-                    y += event.y - preY
-
-                    preX = event.x
-                    preY = event.y
-                }
             }
         }
 
-        return true
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain()
+        }
+        mVelocityTracker!!.addMovement(ev)
+
+        return result
+    }
+
+    enum class DraggableState {
+        POSSIBLE, IMPOSSIBLE, STATELESS
+    }
+
+    protected fun canDrag(
+        view: View,
+        touchX: Float,
+        touchY: Float
+    ): DraggableState {
+        if (view is ViewGroup && view.childCount != 0) {
+            view.children.filter { child ->
+                child.x <= touchX && touchX <= child.x + child.width && child.y <= touchY && touchY <= child.y + child.height
+            }.toList().let {
+                if (it.isNullOrEmpty()) {
+                    return DraggableState.IMPOSSIBLE
+                } else {
+                    it.forEach { view ->
+                        val canDrag = DraggableState.IMPOSSIBLE == canDrag(
+                            view,
+                            touchX - view.x,
+                            touchY - view.y
+                        )
+
+                        return if (canDrag) DraggableState.POSSIBLE else DraggableState.STATELESS
+                    }
+                }
+            }
+        }
+        return DraggableState.IMPOSSIBLE
+    }
+
+    private val viewAndScrollerList = LinkedList<Pair<View, OverScroller>>()
+
+    private fun computeFling() {
+        viewAndScrollerList.removeAll(viewAndScrollerList.filter { it.second.isFinished })
+        viewAndScrollerList.forEach {
+            val view = it.first
+            val scroller = it.second
+            scroller.computeScrollOffset()
+            view.x = max(0f, scroller.currX.toFloat())
+            view.y = max(0f,scroller.currY.toFloat())
+        }
+
+        postInvalidateOnAnimation()
+    }
+
+    private fun isChild(ev: MotionEvent): Boolean {
+        return children.any { child ->
+            Rect().also {
+                child.getHitRect(it)
+            }.run {
+                contains(ev.x.toInt(), ev.y.toInt())
+            }
+        }
+    }
+
+    private fun getLastChild(ev: MotionEvent): View? {
+        return children.lastOrNull { child ->
+            Rect().also {
+                child.getHitRect(it)
+            }.run {
+                contains(ev.x.toInt(), ev.y.toInt())
+            }
+        }
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

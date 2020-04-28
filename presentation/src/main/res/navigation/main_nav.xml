@@ -38,6 +38,10 @@
             app:destination="@id/customLayoutFragment" />
 
         <action
+            android:id="@+id/action_startFragment_to_customLayoutFragment2"
+            app:destination="@id/customLayoutFragment2" />
+
+        <action
             android:id="@+id/action_startFragment_to_RxFragment"
             app:destination="@id/rxFragment" />
     </fragment>
@@ -81,6 +85,11 @@
         android:id="@+id/customLayoutFragment"
         android:name="com.example.presentation.fragment.customlayout.CustomLayoutFragment"
         android:label="CustomLayoutFragment" />
+
+    <fragment
+        android:id="@+id/customLayoutFragment2"
+        android:name="com.example.presentation.fragment.customlayout2.CustomLayoutFragment2"
+        android:label="CustomLayoutFragment2" />
 
     <fragment
         android:id="@+id/rxFragment"

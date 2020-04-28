@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.presentation.fragment.customlayout.MyLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E37C9E">
+
+    <ImageView
+        android:id="@+id/target"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="300dp"
+        android:background="#1AAB69" />
+
+    <ImageView
+        android:id="@+id/target2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="300dp"
+        android:background="#16C2ED" />
+
+</com.example.presentation.fragment.customlayout.MyLayout>

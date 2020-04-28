@@ -101,6 +101,15 @@ class StartFragment : Fragment() {
 
                     add(
                         MyAdapter.Item(
+                            Color.YELLOW,
+                            "custom layout2",
+                            View.OnClickListener {
+                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToCustomLayoutFragment2())
+                            })
+                    )
+
+                    add(
+                        MyAdapter.Item(
                             Color.RED,
                             "RX",
                             View.OnClickListener {
@@ -109,8 +118,7 @@ class StartFragment : Fragment() {
                     )
                 }
             )
-        recyclerView.itemAnimator =
-            MyItemAnimator()
+        recyclerView.itemAnimator = MyItemAnimator()
     }
 
     private fun initView() {

@@ -12,12 +12,12 @@ class MyTextView @JvmOverloads constructor(
 
     init {
         setOnTouchListener { _, _ ->
-            println("osy view onTouchListener")
+            println("osy MyTextView touch")
             false
         }
 
         setOnClickListener {
-            println("osy view onClickListener")
+            println("osy MyTextView click")
         }
     }
 

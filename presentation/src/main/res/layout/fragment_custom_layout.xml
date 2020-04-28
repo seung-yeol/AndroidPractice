@@ -11,6 +11,7 @@
         android:background="@color/chat_system_1"
         android:paddingStart="10dp"
         android:paddingTop="10dp"
+        android:tag="핑크"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,11 +22,18 @@
             android:background="#2BCE84"
             android:text="가나다라1" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="120dp"
             android:layout_height="100dp"
-            android:background="#952BCE"
-            android:text="가나다라2" />
+            android:background="#952BCE">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:background="#DEA940"
+                android:text="가나다라2" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="80dp"
@@ -60,49 +68,37 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="60dp"
-            android:background="#3F51B5"
-            android:text="가나다라7" />
-
-        <TextView
-            android:layout_width="50dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="10dp"
-            android:background="#325D26"
-            android:text="가나다라8" />
-
-        <TextView
+        <com.example.presentation.fragment.customlayout.MyLayout
             android:layout_width="300dp"
-            android:layout_height="100dp"
+            android:layout_height="300dp"
             android:layout_marginTop="20dp"
-            android:background="#000000"
-            android:text="가나다라9"
-            android:textColor="@color/white" />
+            android:background="#415412"
+            android:tag="초록">
 
-        <TextView
-            android:layout_width="130dp"
-            android:layout_height="80dp"
-            android:background="#6B2C2C"
-            android:text="가나다라10" />
+            <com.example.presentation.fragment.customlayout.MyLayout
+                android:layout_width="260dp"
+                android:layout_height="260dp"
+                android:background="#123054"
+                android:tag="파랑">
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="100dp"
-            android:background="#FF9800"
-            android:text="가나다라11" />
 
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="40dp"
-            android:background="#100C4F"
-            android:text="가나다라12"
-            android:textColor="@color/white" />
+                    <com.example.presentation.fragment.customlayout.MyLayout
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
+                        android:background="#543E12"
+                        android:tag="갈색" >
+
+                        <com.example.presentation.fragment.customlayout.MyLayout
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:background="#52E611"
+                            android:tag="연두" />
+
+                    </com.example.presentation.fragment.customlayout.MyLayout>
+
+            </com.example.presentation.fragment.customlayout.MyLayout>
+
+        </com.example.presentation.fragment.customlayout.MyLayout>
     </com.example.presentation.fragment.customlayout.MyLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
