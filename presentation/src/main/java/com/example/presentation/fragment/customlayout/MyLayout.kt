@@ -1,26 +1,40 @@
 package com.example.presentation.fragment.customlayout
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.*
-import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
 import androidx.core.view.*
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 
 open class MyLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr) {
+    private val configuration = ViewConfiguration.get(context)
+    private val mMaximumVelocity = configuration.scaledMaximumFlingVelocity.toFloat()
+    private val touchSlop = configuration.scaledTouchSlop
+    private val viewAndScrollerList = LinkedList<Pair<View, OverScroller>>()
+
+    private var standByClick = true
+    private var isDrag = false
+    private var downX = 0f
+    private var downY = 0f
+    private var preX = 0f
+    private var preY = 0f
+
+    private var mVelocityTracker: VelocityTracker? = null
+    private var targetView: View? = null
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        if (!viewAndScrollerList.isNullOrEmpty()) {
-            computeFling()
-        }
+        if (!viewAndScrollerList.isNullOrEmpty()) computeFling()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -46,9 +60,7 @@ open class MyLayout @JvmOverloads constructor(
                 if (it.visibility != View.GONE) {
                     val viewWidth = it.measuredWidth + it.marginLeft + it.marginRight
                     if (tempWidth + viewWidth > maxWidth) {
-                        if (myWidth < tempWidth) {
-                            myWidth = tempWidth
-                        }
+                        if (myWidth < tempWidth) myWidth = tempWidth
                         tempWidth = paddingLeft + paddingRight + viewWidth
                     } else {
                         tempWidth += viewWidth
@@ -122,20 +134,7 @@ open class MyLayout @JvmOverloads constructor(
         }
     }
 
-    private val configuration = ViewConfiguration.get(context)
-    private val touchSlop = configuration.scaledTouchSlop
-    private val mMaximumVelocity = configuration.scaledMaximumFlingVelocity.toFloat()
-
-    private var isDrag = false
-    private var downX = 0f
-    private var downY = 0f
-
-    private var standByClick = true
-
-    private var targetView: View? = null
-    private var preX: Float? = null
-    private var preY: Float? = null
-
+    @SuppressLint("Recycle", "ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain()
@@ -149,7 +148,8 @@ open class MyLayout @JvmOverloads constructor(
                     preX = event.x
                     preY = event.y
 
-                    viewAndScrollerList.firstOrNull { it.first == targetView }?.second?.forceFinished(true)
+                    viewAndScrollerList.firstOrNull { it.first == targetView }
+                        ?.second?.forceFinished(true)
                 }
 
                 return true
@@ -159,17 +159,17 @@ open class MyLayout @JvmOverloads constructor(
                 val diffX = abs(downX - event.x)
                 val diffY = abs(downY - event.y)
 
-                if ((diffX + diffY) * 1.4f > touchSlop) {
+                if ((diffX + diffY) / 1.4f > touchSlop) {
                     isDrag = true
                     standByClick = true
                 }
 
                 if (isDrag) {
-                    targetView?.apply {
-                        if (preX != null && preY != null) {
-                            x += event.x - preX!!
-                            y += event.y - preY!!
-                        }
+                    targetView?.also {
+                        val maxX = width.toFloat() - it.width
+                        val maxY = width.toFloat() - it.width
+                        x = max(0f, min(maxX, x + event.x - preX))
+                        y = max(0f, min(maxY, y + event.y - preY))
 
                         preX = event.x
                         preY = event.y
@@ -183,30 +183,13 @@ open class MyLayout @JvmOverloads constructor(
                 val result = targetView != null
 
                 if (result && isDrag) {
-                    val velocityTracker = mVelocityTracker
-                    velocityTracker!!.computeCurrentVelocity(1000, mMaximumVelocity)
+                    val velocityTracker =
+                        mVelocityTracker!!.apply { computeCurrentVelocity(1000, mMaximumVelocity) }
                     val xVelocity = velocityTracker.xVelocity
                     val yVelocity = velocityTracker.yVelocity
 
-                    val scroller = OverScroller(context, DecelerateInterpolator())
-                    scroller.fling(
-                        targetView!!.x.toInt(),
-                        targetView!!.y.toInt(),
-                        xVelocity.toInt(),
-                        yVelocity.toInt(),
-                        0,
-                        width - targetView!!.width,
-                        0,
-                        height - targetView!!.height
-                    )
-                    viewAndScrollerList.add(targetView!! to scroller)
-
-                    computeFling()
+                    fling(xVelocity, yVelocity)
                 }
-
-                targetView = null
-                preX = null
-                preY = null
 
                 if (standByClick) {
                     children.findLast { child ->
@@ -222,16 +205,34 @@ open class MyLayout @JvmOverloads constructor(
             }
 
             MotionEvent.ACTION_CANCEL -> {
-                targetView = null
-                preX = null
-                preY = null
+                resetTouch()
             }
         }
 
         return false
     }
 
+    private fun fling(xVelocity: Float, yVelocity: Float) {
+        val scroller = OverScroller(context)
+        scroller.fling(
+            targetView!!.x.toInt(),
+            targetView!!.y.toInt(),
+            xVelocity.toInt(),
+            yVelocity.toInt(),
+            0,
+            width - targetView!!.width,
+            0,
+            height - targetView!!.height
+        )
+        viewAndScrollerList.add(targetView!! to scroller)
+        computeFling()
+    }
+
     private fun resetTouch() {
+        targetView = null
+        preX = 0f
+        preY = 0f
+
         standByClick = true
         isDrag = false
         mVelocityTracker?.recycle()
@@ -239,7 +240,7 @@ open class MyLayout @JvmOverloads constructor(
         parent.requestDisallowInterceptTouchEvent(false)
     }
 
-    var mVelocityTracker: VelocityTracker? = null
+    @SuppressLint("Recycle")
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         var result = isChild(ev)
 
@@ -255,16 +256,12 @@ open class MyLayout @JvmOverloads constructor(
 
             MotionEvent.ACTION_MOVE -> {
                 parent.requestDisallowInterceptTouchEvent(true)
-                return if (targetView != null) {
+                return if (targetView != null)
                     canDrag(this, ev.x, ev.y) == DraggableState.POSSIBLE
-                } else {
-                    false
-                }
+                else false
             }
 
-            MotionEvent.ACTION_UP -> {
-                return false
-            }
+            MotionEvent.ACTION_UP -> return false
         }
 
         if (mVelocityTracker == null) {
@@ -279,7 +276,7 @@ open class MyLayout @JvmOverloads constructor(
         POSSIBLE, IMPOSSIBLE, STATELESS
     }
 
-    protected fun canDrag(
+    open fun canDrag(
         view: View,
         touchX: Float,
         touchY: Float
@@ -306,16 +303,14 @@ open class MyLayout @JvmOverloads constructor(
         return DraggableState.IMPOSSIBLE
     }
 
-    private val viewAndScrollerList = LinkedList<Pair<View, OverScroller>>()
-
     private fun computeFling() {
         viewAndScrollerList.removeAll(viewAndScrollerList.filter { it.second.isFinished })
         viewAndScrollerList.forEach {
             val view = it.first
             val scroller = it.second
             scroller.computeScrollOffset()
-            view.x = max(0f, scroller.currX.toFloat())
-            view.y = max(0f,scroller.currY.toFloat())
+            view.x = scroller.currX.toFloat()
+            view.y = scroller.currY.toFloat()
         }
 
         postInvalidateOnAnimation()

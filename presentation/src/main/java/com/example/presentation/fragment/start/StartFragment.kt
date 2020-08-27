@@ -41,7 +41,16 @@ class StartFragment : Fragment() {
                             Color.RED,
                             "Clip Swipe",
                             View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToRedFragment())
+                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToClipSwipeFragment())
+                            })
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.parseColor("#FF5E00"),
+                            "Fade Swipe",
+                            View.OnClickListener {
+                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToFadeSwipeFragment())
                             })
                     )
 

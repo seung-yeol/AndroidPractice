@@ -8,8 +8,11 @@
         android:name="com.example.presentation.fragment.start.StartFragment"
         android:label="StartFragment">
         <action
-            android:id="@+id/action_startFragment_to_redFragment"
-            app:destination="@id/redFragment" />
+            android:id="@+id/action_startFragment_to_clipSwipeFragment"
+            app:destination="@id/clipSwipeFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_fadeSwipeFragment"
+            app:destination="@id/fadeSwipeFragment" />
         <action
             android:id="@+id/action_startFragment_to_animationFragment"
             app:destination="@id/animationFragment" />
@@ -47,9 +50,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/redFragment"
+        android:id="@+id/clipSwipeFragment"
         android:name="com.example.presentation.fragment.clipswipe.ClipSwipeFragment"
-        android:label="RedFragment" />
+        android:label="ClipSwipeFragment" />
+
+    <fragment
+        android:id="@+id/fadeSwipeFragment"
+        android:name="com.example.presentation.fragment.fadeswipe.FadeSwipeFragment"
+        android:label="FadeSwipeFragment" />
 
     <fragment
         android:id="@+id/animationFragment"

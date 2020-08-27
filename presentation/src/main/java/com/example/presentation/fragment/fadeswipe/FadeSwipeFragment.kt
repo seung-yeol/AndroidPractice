@@ -1,4 +1,4 @@
-package com.example.presentation.fragment.clipswipe
+package com.example.presentation.fragment.fadeswipe
 
 import android.content.Context
 import android.graphics.Color
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.item.view.*
 import java.util.*
 
 
-class ClipSwipeFragment : Fragment() {
+class FadeSwipeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -48,7 +48,6 @@ class ClipSwipeFragment : Fragment() {
                 val visiblePosition =
                     (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
-
                 val temp = Rect()
 
                 recyclerView.children.forEach {
@@ -57,21 +56,11 @@ class ClipSwipeFragment : Fragment() {
                         when (viewHolder.layoutPosition) {
                             visiblePosition -> {
                                 it.translationX = -it.left.toFloat()
-                                it.clipBounds = temp.apply {
-                                    left = 0
-                                    top = 0
-                                    right = it.right
-                                    bottom = it.height
-                                }
+                                it.alpha = it.right.toFloat() / it.width
                             }
                             visiblePosition + 1 -> {
                                 it.translationX = -it.left.toFloat()
-                                it.clipBounds = temp.apply {
-                                    left = 0
-                                    top = 0
-                                    right = it.width
-                                    bottom = it.height
-                                }
+                                it.alpha = 1f
                             }
                         }
                     }
