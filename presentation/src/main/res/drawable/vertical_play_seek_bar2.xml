@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+     <!--<item
+         android:id="@android:id/background"
+         android:width="9dp"
+         android:gravity="center_horizontal">
+         <shape android:shape="rectangle">
+             <solid android:color="#ffffff" />
+             <size android:width="2dp" />
+         </shape>
+     </item>-->
+    <item
+        android:id="@android:id/background"
+        android:drawable="@drawable/img_live_grouppurchase_bar"
+        android:gravity="center_horizontal">
+    </item>
+
+    <item
+        android:id="@android:id/progress"
+        android:width="9dp"
+        android:gravity="center_horizontal">
+        <clip
+            android:clipOrientation="vertical"
+            android:gravity="bottom">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/main_point" />
+                <size android:width="9dp" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

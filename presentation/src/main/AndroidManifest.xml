@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.presentation">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:supportsRtl="true"
@@ -31,7 +35,6 @@
                 <data android:scheme="osyshow" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

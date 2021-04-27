@@ -40,90 +40,153 @@ class StartFragment : Fragment() {
                         MyAdapter.Item(
                             Color.RED,
                             "Clip Swipe",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToClipSwipeFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToClipSwipeFragment())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.parseColor("#FF5E00"),
                             "Fade Swipe",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToFadeSwipeFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToFadeSwipeFragment())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.YELLOW,
                             "Animation Set",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToAnimationFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToAnimationFragment())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.BLUE,
                             "Range Seekbar",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToRangeSeekBarFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToRangeSeekBarFragment())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.MAGENTA,
                             "animated Drawable",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToDrawableFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToDrawableFragment())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.RED,
                             "animated Drawable2",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToDrawableFragment2())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToDrawableFragment2())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.GREEN,
                             "scratch view",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToScratchFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToScratchFragment())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.GRAY,
                             "custom layout",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToCustomLayoutFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToCustomLayoutFragment())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.YELLOW,
                             "custom layout2",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToCustomLayoutFragment2())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToCustomLayoutFragment2())
+                        }
                     )
 
                     add(
                         MyAdapter.Item(
                             Color.RED,
                             "RX",
-                            View.OnClickListener {
-                                findNavController().navigate(StartFragmentDirections.actionStartFragmentToRxFragment())
-                            })
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToRxFragment())
+                        }
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.CYAN,
+                            "CUSTOM TEXTVIEW"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToCustomTextViewFragment())
+                        }
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.GREEN,
+                            "webpImage Fragment"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToWebPFragment())
+                        }
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.MAGENTA,
+                            "eventDriven Fragment"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToEventDrivenFragment())
+                        }
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.RED,
+                            "screenCapture Fragment"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToScreenCaptureFragment())
+                        }
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.GREEN,
+                            "lottie seekBar Fragment"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToLottieSeekBarFragment())
+                        }
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.YELLOW,
+                            "slot machine Fragment"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToSlotMachineFragment())
+                        }
+                    )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.RED,
+                            "visible Fragment"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToVisibleFragment())
+                        }
                     )
                 }
             )
@@ -158,6 +221,10 @@ class StartFragment : Fragment() {
                 }
                 (recyclerView.layoutManager as LinearLayoutManager).startSmoothScroll(sss)
             }
+        }
+
+        inflate.setOnClickListener {
+            stub.visibility = View.VISIBLE
         }
     }
 

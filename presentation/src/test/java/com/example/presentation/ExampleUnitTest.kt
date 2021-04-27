@@ -1,5 +1,6 @@
 package com.example.presentation
 
+import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Test
 
@@ -35,9 +36,20 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun aaa(){
+    fun aaa() {
         "01053750861".replaceFirst("(^[0-9]{3})([0-9]{4})([0-9]{4})$".toRegex(), "$1 - $2 - $3").let {
             println(it)
         }
+    }
+
+    @Test
+    fun aaaa() {
+        val sources = "동해물과 백두산이 마르고 \n닳도록 하느님이 보우하사 우리나라만세".split("\\s").toTypedArray()
+
+        println(sources.joinToString { it + " / " })
+    }
+
+    @Test
+    fun aaaaa() {
     }
 }

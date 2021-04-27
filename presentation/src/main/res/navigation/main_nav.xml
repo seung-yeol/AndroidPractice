@@ -47,6 +47,35 @@
         <action
             android:id="@+id/action_startFragment_to_RxFragment"
             app:destination="@id/rxFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_CustomTextViewFragment"
+            app:destination="@id/customTextViewFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_WebPFragment"
+            app:destination="@id/webPFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_EventDrivenFragment"
+            app:destination="@id/eventDrivenView" />
+
+        <action
+            android:id="@+id/action_startFragment_to_ScreenCaptureFragment"
+            app:destination="@id/screenCaptureFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_lottieSeekBarFragment"
+            app:destination="@+id/lottieSeekBarFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_slotMachineFragment"
+            app:destination="@+id/slotMachineFragment" />
+
+
+        <action
+            android:id="@+id/action_startFragment_to_visibleFragment"
+            app:destination="@+id/visibleFragment" />
     </fragment>
 
     <fragment
@@ -103,4 +132,39 @@
         android:id="@+id/rxFragment"
         android:name="com.example.presentation.fragment.rx.RxFragment"
         android:label="RxFragment" />
+
+    <fragment
+        android:id="@+id/customTextViewFragment"
+        android:name="com.example.presentation.fragment.customtextview.CustomTextViewFragment"
+        android:label="CustomTextViewFragment" />
+
+    <fragment
+        android:id="@+id/webPFragment"
+        android:name="com.example.presentation.fragment.webp.WebPFragment"
+        android:label="WebPFragment" />
+
+    <fragment
+        android:id="@+id/eventDrivenView"
+        android:name="com.example.presentation.fragment.eventdriven.EventCatchFragment"
+        android:label="EventDrivenView" />
+
+    <fragment
+        android:id="@+id/screenCaptureFragment"
+        android:name="com.example.presentation.fragment.secreencapture.ScreenCaptureFragment"
+        android:label="ScreenCaptureFragment" />
+
+    <fragment
+        android:id="@+id/lottieSeekBarFragment"
+        android:name="com.example.presentation.fragment.lottieseekbar.LottieSeekBarFragment"
+        android:label="LottieSeekBarFragment" />
+
+    <fragment
+        android:id="@+id/slotMachineFragment"
+        android:name="com.example.presentation.fragment.slotmachinetext.SlotMachineFragment"
+        android:label="SlotMachineFragment" />
+
+    <fragment
+        android:id="@+id/visibleFragment"
+        android:name="com.example.presentation.fragment.visibility.VisibleFragment"
+        android:label="VisibleFragment" />
 </navigation>

@@ -14,4 +14,35 @@
         <attr name="endPointProgress" format="integer" />
         <attr name="startPointProgress" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="ReviewView" parent="TextView">
+        <attr name="subTextMarginTop" format="dimension" />
+        <attr name="subTextColor" format="color" />
+        <attr name="subTextLines" format="integer" />
+        <attr name="subTextSize" format="dimension" />
+        <attr name="subTextLineSpacingExtra" format="dimension" />
+        <attr name="subTextAlign" format="flags">
+            <flag name="left" value="0" />
+            <flag name="center" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="EventDrivenView">
+        <attr name="defaultImageWidth" format="dimension" />
+        <attr name="defaultImageHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="VerticalLottieSeekBar">
+        <attr name="thumb_lottie_fileName" format="string" />
+        <attr name="rangeWidth" format="dimension" />
+        <attr name="rangeColor" />
+        <attr name="max" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="TextFlipper">
+        <attr name="android:gravity" format="flags" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:textStyle" />
+    </declare-styleable>
 </resources>

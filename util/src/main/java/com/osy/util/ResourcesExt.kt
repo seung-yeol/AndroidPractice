@@ -9,6 +9,8 @@ fun Float.toDp() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 fun Int.dpToPx() = this.toFloat().dpToPx()
 
+fun Float.toSp() = (this / Resources.getSystem().displayMetrics.scaledDensity).toInt()
+
 fun Float.dpToPx() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics).toInt()
 
 fun Int.spToPx() = this.toFloat().spToPx()

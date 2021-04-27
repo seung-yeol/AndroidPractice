@@ -14,4 +14,27 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+
+    @Test
+    fun all() {
+        val integers = listOf<Int>()
+
+        integers.all {
+            it == 10
+        }.let {
+            println("all : $it")
+        }
+    }
+
+    @Test
+    fun any() {
+        val integers = listOf<Int>()
+
+        integers.any {
+            it == 10
+        }.let {
+            println("any : $it")
+        }
+    }
 }

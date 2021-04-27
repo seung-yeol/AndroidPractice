@@ -10,6 +10,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.ViewConfiguration
 import android.widget.SeekBar
+import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.core.content.ContextCompat
 import com.example.presentation.R
 import com.osy.util.dpToPx
@@ -18,10 +19,10 @@ import kotlin.math.max
 import kotlin.math.min
 
 class RangeSeekBar @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
-) : SeekBar(context, attrs, defStyleAttr) {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : AppCompatSeekBar(context, attrs, defStyleAttr) {
     private var mScaledTouchSlop: Int = 0
     private var iconPaddingStartEnd: Int = 0
     private var iconPaddingTopBottom: Int = 0
