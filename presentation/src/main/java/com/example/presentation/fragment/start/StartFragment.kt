@@ -30,7 +30,6 @@ class StartFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        에러를 만들어 보자
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         recyclerView.adapter =
