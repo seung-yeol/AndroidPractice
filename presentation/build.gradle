@@ -21,10 +21,36 @@ android {
     }
 
     buildTypes {
-        debug {}
-        release {
+        devDebug {
+            initWith(debug)
+        }
+
+        devTest {
+            initWith(debug)
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        devRelease {
+            initWith(release)
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        realDebug {
+            initWith(debug)
+        }
+
+        realTest {
+            initWith(debug)
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        realRelease {
+            initWith(release)
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
 
