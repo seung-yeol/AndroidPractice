@@ -17,6 +17,7 @@ class MainNavHostFragment : NavHostFragment() {
         val layout = FrameLayout(inflater.context)
         layout.id = id
 
+
         var fragmentLifecycleCallbacks = this.fragmentLifecycleCallbacks
         if (fragmentLifecycleCallbacks != null) {
             childFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
