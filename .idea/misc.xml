@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="presentation/src/main/res/layout/fragment_keyboard.xml" value="0.2659722222222222" />
+        <entry key="presentation/src/main/res/layout/fragment_lottie_seek_bar.xml" value="0.2824742268041237" />
+        <entry key="presentation/src/main/res/layout/fragment_pentagon.xml" value="0.28541666666666665" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
