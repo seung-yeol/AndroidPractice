@@ -187,6 +187,15 @@ class StartFragment : Fragment() {
                             findNavController().navigate(StartFragmentDirections.actionStartFragmentToVisibleFragment())
                         }
                     )
+
+                    add(
+                        MyAdapter.Item(
+                            Color.MAGENTA,
+                            "opengl Fragment"
+                        ) {
+                            findNavController().navigate(StartFragmentDirections.actionStartFragmentToOpenGlFragment())
+                        }
+                    )
                 }
             )
         recyclerView.itemAnimator = MyItemAnimator()

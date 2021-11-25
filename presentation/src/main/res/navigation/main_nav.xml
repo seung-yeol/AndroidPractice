@@ -76,6 +76,10 @@
         <action
             android:id="@+id/action_startFragment_to_visibleFragment"
             app:destination="@+id/visibleFragment" />
+
+        <action
+            android:id="@+id/action_startFragment_to_openGlFragment"
+            app:destination="@+id/openGlFragment" />
     </fragment>
 
     <fragment
@@ -167,4 +171,9 @@
         android:id="@+id/visibleFragment"
         android:name="com.example.presentation.fragment.visibility.VisibleFragment"
         android:label="VisibleFragment" />
+
+    <fragment
+        android:id="@+id/openGlFragment"
+        android:name="com.example.presentation.fragment.openGl.OpenGlFragment"
+        android:label="OpenGlFragment" />
 </navigation>
